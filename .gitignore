@@ -1,0 +1,6 @@
+venv/
+tmp/*
+
+*.pyc
+
+!.gitkeep
