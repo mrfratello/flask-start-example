@@ -6,7 +6,7 @@ class User(db.Model):
     nickname = db.Column(db.String(64), index = True, unique = True)
     password = db.Column(db.String(255), index=True)
     email = db.Column(db.String(120), index = True, unique = True)
-    # role = db.Column(db.SmallInteger)
+    role = db.Column(db.SmallInteger)
 
     def __init__(self, login, password):
         self.nickname = login
