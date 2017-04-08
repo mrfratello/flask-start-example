@@ -2,9 +2,10 @@ import os
 import unittest
 
 from app import apple, db
-from flask_migrate import upgrade, downgrade
+import flask_migrate
 
 TEST_DB = 'test'
+PATH_TO_DATABASE = os.path.join(os.path.abspath(os.path.curdir), TEST_DB + ".slite")
 
 class testUser(unittest.TestCase):
 
@@ -12,16 +13,13 @@ class testUser(unittest.TestCase):
         apple.config['TESTING'] = True
         apple.config['CSRF_ENABLED'] = False
         apple.config['DEBUG'] = False
-        # basedir = os.path.abspath(os.path.curdir)
-        # apple.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, TEST_DB)
-        apple.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost:3306/' + TEST_DB
+        apple.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + PATH_TO_DATABASE
+        #apple.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost:3306/' + TEST_DB
         with apple.app_context():
-            upgrade()
+            flask_migrate.upgrade()
 
     def tearDown(self):
-        with apple.app_context():
-            downgrade(revision='base')
-        # db.drop_all()
+        os.remove(PATH_TO_DATABASE)
 
     def test_should_true(self):
         self.assertEqual(0, 0)
