@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import os
 from flask import abort, render_template, redirect, url_for
 from app import apple, db
@@ -6,7 +8,10 @@ from models import User
 @apple.route('/')
 def index():
     print apple.root_path
-    return "Hello world1"
+    return "".join([
+        "Hello world1<br/>",
+        "<a href='/users/add_random'>Добавить случайного пользователя</a>"
+    ])
 
 @apple.route('/message/<string:mess_id>')
 def message(mess_id):
@@ -23,9 +28,7 @@ def users():
 
 @apple.route('/users/add_random')
 def add_user():
-    user = User('test', 'test_pass')
-    db.session.add(user)
-    db.session.commit()
+    User.add_random_user()
     return redirect(url_for('users'))
 
 

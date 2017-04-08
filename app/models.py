@@ -3,7 +3,7 @@ from app import db
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key = True, autoincrement=True)
-    nickname = db.Column(db.String(64), index = True, unique = True)
+    nickname = db.Column(db.String(64), index = True)
     password = db.Column(db.String(255), index=True)
     email = db.Column(db.String(120), index = True, unique = True)
     role = db.Column(db.SmallInteger)
@@ -17,6 +17,14 @@ class User(db.Model):
             nick=self.nickname,
             email=self.email
         )
+
+    @staticmethod
+    def add_random_user():
+        user = User('test', 'test_pass')
+        db.session.add(user)
+        db.session.commit()
+        return user
+
 
     @staticmethod
     def get_hash_password(password):
